@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\MaziStore.Module.Infrastructure\MaziStore.Module.Infrastructure.csproj" />
+    <ProjectReference Include="..\MaziStore.Module.Catalog\MaziStore.Module.Catalog.csproj" />
+    <ProjectReference Include="..\MaziStore.Module.Core\MaziStore.Module.Core.csproj" />
+    <ProjectReference Include="..\MaziStore.Module.Inventory\MaziStore.Module.Inventory.csproj" />
+    <ProjectReference Include="..\MaziStore.Module.Order\MaziStore.Module.Orders.csproj" />
+  </ItemGroup>
+
+
+
+</Project>

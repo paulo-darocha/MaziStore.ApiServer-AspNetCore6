@@ -1,0 +1,77 @@
+[
+	{
+		"id": "MaziStore.Module.Core",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.SampleData",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.StorageLocal",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.Cms",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.ShoppingCart",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.Catalog",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.Tax",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.Payments",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.Orders",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.Shipments",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.Inventory",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.Pricing",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.ProductComparison",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.News",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.Reviews",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	}
+]
