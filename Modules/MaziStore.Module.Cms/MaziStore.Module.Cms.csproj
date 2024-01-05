@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\MaziStore.Module.Infrastructure\MaziStore.Module.Infrastructure.csproj" />
+    <ProjectReference Include="..\MaziStore.Module.Core\MaziStore.Module.Core.csproj" />
+  </ItemGroup>
+
+</Project>

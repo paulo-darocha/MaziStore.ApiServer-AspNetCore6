@@ -7,7 +7,7 @@ namespace MaziStore.ApiServer.Home.Extensions
 {
    public static class DataStoreExtension
    {
-      public static IServiceCollection AddCustomizedDataStore(
+      public static IServiceCollection AddMaziDataStore(
          this IServiceCollection services,
          IConfiguration configuration
       )

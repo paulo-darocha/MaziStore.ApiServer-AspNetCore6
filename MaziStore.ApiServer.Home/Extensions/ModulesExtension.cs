@@ -14,7 +14,7 @@ namespace MaziStore.ApiServer.Home.Extensions
       private static readonly IModuleConfigurationManager _modulesConfig =
          new ModuleConfigurationManager();
 
-      public static IServiceCollection AddModules(this IServiceCollection services)
+      public static IServiceCollection AddMaziModules(this IServiceCollection services)
       {
          foreach (var module in _modulesConfig.GetModules())
          {

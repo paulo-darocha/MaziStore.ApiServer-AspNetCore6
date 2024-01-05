@@ -32,7 +32,7 @@ namespace MaziStore.Module.Core.Data
       public override int SaveChanges(bool acceptAllChangesOnSuccess)
       {
          ValidateEntities();
-         return base.SaveChanges();
+         return base.SaveChanges(acceptAllChangesOnSuccess);
       }
 
       public override Task<int> SaveChangesAsync(

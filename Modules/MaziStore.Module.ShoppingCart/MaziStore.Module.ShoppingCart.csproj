@@ -10,13 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\ShoppingCart\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\MaziStore.Module.Infrastructure\MaziStore.Module.Infrastructure.csproj" />
     <ProjectReference Include="..\MaziStore.Module.Catalog\MaziStore.Module.Catalog.csproj" />
     <ProjectReference Include="..\MaziStore.Module.Core\MaziStore.Module.Core.csproj" />
+    <ProjectReference Include="..\MaziStore.Module.Pricing\MaziStore.Module.Pricing.csproj" />
   </ItemGroup>
 
 

@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaziStore.Module.SampleData
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaziStore.Module.StorageLocal", "Modules\MaziStore.Module.StorageLocal\MaziStore.Module.StorageLocal.csproj", "{42A16988-96F9-415F-8717-38E0C0078D35}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaziStore.Module.Cms", "MaziStore.Module.Cms\MaziStore.Module.Cms.csproj", "{274F7C7B-A4A3-48CD-A9DC-E1E59A74D602}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaziStore.Module.ShoppingCart", "Modules\MaziStore.Module.ShoppingCart\MaziStore.Module.ShoppingCart.csproj", "{895EBBB7-55E2-4EA3-9001-1E90E96E1A1A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaziStore.Module.Catalog", "Modules\MaziStore.Module.Catalog\MaziStore.Module.Catalog.csproj", "{49D03B4B-7231-4478-ACEA-F436D6B8CE20}"
@@ -27,17 +25,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaziStore.Module.Payments",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaziStore.Module.Orders", "Modules\MaziStore.Module.Order\MaziStore.Module.Orders.csproj", "{931BF447-71A4-472E-AEFB-0111739D059F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaziStore.Module.Shipments", "Modules\MaziStore.Module.Shipments\MaziStore.Module.Shipments.csproj", "{D60DE320-40A8-4488-9A44-CC3D9EFD1ECC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaziStore.Module.Shipments", "Modules\MaziStore.Module.Shipments\MaziStore.Module.Shipments.csproj", "{D60DE320-40A8-4488-9A44-CC3D9EFD1ECC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaziStore.Module.Inventory", "Modules\MaziStore.Module.Inventory\MaziStore.Module.Inventory.csproj", "{1A8F5DB6-AA2D-441A-9D23-008793EBC84C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaziStore.Module.Inventory", "Modules\MaziStore.Module.Inventory\MaziStore.Module.Inventory.csproj", "{1A8F5DB6-AA2D-441A-9D23-008793EBC84C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaziStore.Module.Pricing", "Modules\MaziStore.Module.Pricing\MaziStore.Module.Pricing.csproj", "{90D0582D-2698-46CA-88AB-4E636AF25CC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaziStore.Module.Pricing", "Modules\MaziStore.Module.Pricing\MaziStore.Module.Pricing.csproj", "{90D0582D-2698-46CA-88AB-4E636AF25CC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaziStore.Module.ProductComparison", "Modules\MaziStore.Module.ProductComparison\MaziStore.Module.ProductComparison.csproj", "{FA5E7567-A0DD-46F5-A46A-7CC211955D6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaziStore.Module.ProductComparison", "Modules\MaziStore.Module.ProductComparison\MaziStore.Module.ProductComparison.csproj", "{FA5E7567-A0DD-46F5-A46A-7CC211955D6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaziStore.Module.News", "Modules\MaziStore.Module.News\MaziStore.Module.News.csproj", "{17A16BED-4516-4EBA-B052-294C09659E9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaziStore.Module.News", "Modules\MaziStore.Module.News\MaziStore.Module.News.csproj", "{17A16BED-4516-4EBA-B052-294C09659E9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaziStore.Module.Reviews", "Modules\MaziStore.Module.Reviews\MaziStore.Module.Reviews.csproj", "{2B1D409B-4845-498D-85E8-FC10D8EAD6A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaziStore.Module.Reviews", "Modules\MaziStore.Module.Reviews\MaziStore.Module.Reviews.csproj", "{2B1D409B-4845-498D-85E8-FC10D8EAD6A8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaziStore.Module.Cms", "Modules\MaziStore.Module.Cms\MaziStore.Module.Cms.csproj", "{1A1B8EC7-4F6A-4CC5-90C1-D48564EA792D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaziStore.Module.ActivityLog", "Modules\MaziStore.Module.ActivityLog\MaziStore.Module.ActivityLog.csproj", "{0F86FEE1-B750-4E84-B61F-F7B7DE8D0058}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaziStore.Module.ProductRecentlyViewed", "Modules\MaziStore.Module.ProductRecentlyViewed\MaziStore.Module.ProductRecentlyViewed.csproj", "{91129D57-3011-4BA3-9B7A-A91821829F44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,10 +69,6 @@ Global
 		{42A16988-96F9-415F-8717-38E0C0078D35}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42A16988-96F9-415F-8717-38E0C0078D35}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42A16988-96F9-415F-8717-38E0C0078D35}.Release|Any CPU.Build.0 = Release|Any CPU
-		{274F7C7B-A4A3-48CD-A9DC-E1E59A74D602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{274F7C7B-A4A3-48CD-A9DC-E1E59A74D602}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{274F7C7B-A4A3-48CD-A9DC-E1E59A74D602}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{274F7C7B-A4A3-48CD-A9DC-E1E59A74D602}.Release|Any CPU.Build.0 = Release|Any CPU
 		{895EBBB7-55E2-4EA3-9001-1E90E96E1A1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{895EBBB7-55E2-4EA3-9001-1E90E96E1A1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{895EBBB7-55E2-4EA3-9001-1E90E96E1A1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -113,6 +113,18 @@ Global
 		{2B1D409B-4845-498D-85E8-FC10D8EAD6A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B1D409B-4845-498D-85E8-FC10D8EAD6A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B1D409B-4845-498D-85E8-FC10D8EAD6A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A1B8EC7-4F6A-4CC5-90C1-D48564EA792D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A1B8EC7-4F6A-4CC5-90C1-D48564EA792D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A1B8EC7-4F6A-4CC5-90C1-D48564EA792D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A1B8EC7-4F6A-4CC5-90C1-D48564EA792D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F86FEE1-B750-4E84-B61F-F7B7DE8D0058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F86FEE1-B750-4E84-B61F-F7B7DE8D0058}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F86FEE1-B750-4E84-B61F-F7B7DE8D0058}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F86FEE1-B750-4E84-B61F-F7B7DE8D0058}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91129D57-3011-4BA3-9B7A-A91821829F44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91129D57-3011-4BA3-9B7A-A91821829F44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91129D57-3011-4BA3-9B7A-A91821829F44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91129D57-3011-4BA3-9B7A-A91821829F44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -121,7 +133,6 @@ Global
 		{7C2A7A6D-863E-48E7-ADA6-C4D5CC7A8101} = {3126DCF2-2975-4E9D-8252-7254D41A5AC3}
 		{BDCC5F01-8361-4819-8531-814BCE4FA438} = {3126DCF2-2975-4E9D-8252-7254D41A5AC3}
 		{42A16988-96F9-415F-8717-38E0C0078D35} = {3126DCF2-2975-4E9D-8252-7254D41A5AC3}
-		{274F7C7B-A4A3-48CD-A9DC-E1E59A74D602} = {3126DCF2-2975-4E9D-8252-7254D41A5AC3}
 		{895EBBB7-55E2-4EA3-9001-1E90E96E1A1A} = {3126DCF2-2975-4E9D-8252-7254D41A5AC3}
 		{49D03B4B-7231-4478-ACEA-F436D6B8CE20} = {3126DCF2-2975-4E9D-8252-7254D41A5AC3}
 		{B30C256B-5BD9-4136-AA42-4C044DDF1293} = {3126DCF2-2975-4E9D-8252-7254D41A5AC3}
@@ -133,6 +144,9 @@ Global
 		{FA5E7567-A0DD-46F5-A46A-7CC211955D6F} = {3126DCF2-2975-4E9D-8252-7254D41A5AC3}
 		{17A16BED-4516-4EBA-B052-294C09659E9F} = {3126DCF2-2975-4E9D-8252-7254D41A5AC3}
 		{2B1D409B-4845-498D-85E8-FC10D8EAD6A8} = {3126DCF2-2975-4E9D-8252-7254D41A5AC3}
+		{1A1B8EC7-4F6A-4CC5-90C1-D48564EA792D} = {3126DCF2-2975-4E9D-8252-7254D41A5AC3}
+		{0F86FEE1-B750-4E84-B61F-F7B7DE8D0058} = {3126DCF2-2975-4E9D-8252-7254D41A5AC3}
+		{91129D57-3011-4BA3-9B7A-A91821829F44} = {3126DCF2-2975-4E9D-8252-7254D41A5AC3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {81EDFFF2-B388-4705-A7F9-3E242D4B4AF9}

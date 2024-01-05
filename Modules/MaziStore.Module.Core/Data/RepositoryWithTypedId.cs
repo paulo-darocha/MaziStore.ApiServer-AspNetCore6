@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MaziStore.Module.Core.Data
 {
@@ -50,9 +51,9 @@ namespace MaziStore.Module.Core.Data
          DbContextRp.SaveChanges();
       }
 
-      public void SaveChangesRpAsync()
+      public Task SaveChangesRpAsync()
       {
-         DbContextRp.SaveChangesAsync();
+         return DbContextRp.SaveChangesAsync();
       }
    }
 }

@@ -10,12 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Cms\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MaziStore.Module.Infrastructure\MaziStore.Module.Infrastructure.csproj" />
-    <ProjectReference Include="..\Modules\MaziStore.Module.Core\MaziStore.Module.Core.csproj" />
+    <ProjectReference Include="..\MaziStore.Module.Catalog\MaziStore.Module.Catalog.csproj" />
   </ItemGroup>
 
 

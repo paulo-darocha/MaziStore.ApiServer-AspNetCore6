@@ -11,5 +11,7 @@ namespace MaziStore.Module.Infrastructure
       public static string WebRootPath { get; set; }
 
       public static string ContentRootPath { get; set; }
+
+      public static string DefaultCulture { get; set; } = "pt-BR";
    }
 }

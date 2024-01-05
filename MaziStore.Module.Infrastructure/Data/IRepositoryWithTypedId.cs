@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MaziStore.Module.Infrastructure.Data
 {
@@ -18,7 +19,7 @@ namespace MaziStore.Module.Infrastructure.Data
 
       void SaveChangesRp();
 
-      void SaveChangesRpAsync();
+      Task SaveChangesRpAsync();
 
       void RemoveRp(T entity);
    }

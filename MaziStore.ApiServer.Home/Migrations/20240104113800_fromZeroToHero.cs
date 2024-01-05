@@ -5,10 +5,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MaziStore.ApiServer.Home.Migrations
 {
-    public partial class initial : Migration
+    public partial class fromZeroToHero : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "ActivityLog_ActivityType",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActivityLog_ActivityType", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Catalog_Brand",
                 columns: table => new
@@ -309,6 +322,21 @@ namespace MaziStore.ApiServer.Home.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductRecentlyViewed_RecentlyViewedProduct",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    ProductId = table.Column<long>(type: "bigint", nullable: false),
+                    LatestViewedOn = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductRecentlyViewed_RecentlyViewedProduct", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tax_TaxClass",
                 columns: table => new
                 {
@@ -319,6 +347,29 @@ namespace MaziStore.ApiServer.Home.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tax_TaxClass", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ActivityLog_Activity",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ActivityTypeId = table.Column<long>(type: "bigint", nullable: false),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedOn = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    EntityId = table.Column<long>(type: "bigint", nullable: false),
+                    EntityTypeId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActivityLog_Activity", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ActivityLog_Activity_ActivityLog_ActivityType_ActivityTypeId",
+                        column: x => x.ActivityTypeId,
+                        principalTable: "ActivityLog_ActivityType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1817,6 +1868,11 @@ namespace MaziStore.ApiServer.Home.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "ActivityLog_ActivityType",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1L, "EntityView" });
+
+            migrationBuilder.InsertData(
                 table: "Catalog_ProductOption",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
@@ -1905,6 +1961,7 @@ namespace MaziStore.ApiServer.Home.Migrations
                     { "CategoryWidget", "widget-category-create", new DateTimeOffset(new DateTime(2018, 5, 29, 4, 33, 39, 160, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)), "widget-category-edit", false, "Category Widget", "CategoryWidget" },
                     { "HtmlWidget", "widget-html-create", new DateTimeOffset(new DateTime(2018, 5, 29, 4, 33, 39, 164, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)), "widget-html-edit", false, "Html Widget", "HtmlWidget" },
                     { "ProductWidget", "widget-product-create", new DateTimeOffset(new DateTime(2018, 5, 29, 4, 33, 39, 163, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)), "widget-product-edit", false, "Product Widget", "ProductWidget" },
+                    { "RecentlyViewedWidget", "widget-recently-viewed-create", new DateTimeOffset(new DateTime(2018, 5, 29, 4, 33, 39, 164, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)), "widget-recently-viewed-edit", false, "Recently Viewed Widget", "RecentlyViewedWidget" },
                     { "SimpleProductWidget", "widget-simple-product-create", new DateTimeOffset(new DateTime(2018, 5, 29, 4, 33, 39, 163, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)), "widget-simple-product-edit", false, "Simple Product Widget", "SimpleProductWidget" },
                     { "SpaceBarWidget", "widget-spacebar-create", new DateTimeOffset(new DateTime(2018, 5, 29, 4, 33, 39, 164, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)), "widget-spacebar-edit", false, "SpaceBar Widget", "SpaceBarWidget" }
                 });
@@ -1948,6 +2005,11 @@ namespace MaziStore.ApiServer.Home.Migrations
                 table: "Inventory_Warehouse",
                 columns: new[] { "Id", "AddressId", "Name", "VendorId" },
                 values: new object[] { 1L, 1L, "Default warehouse", null });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ActivityLog_Activity_ActivityTypeId",
+                table: "ActivityLog_Activity",
+                column: "ActivityTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Catalog_Category_ParentId",
@@ -2526,6 +2588,9 @@ namespace MaziStore.ApiServer.Home.Migrations
                 table: "Core_UserAddress");
 
             migrationBuilder.DropTable(
+                name: "ActivityLog_Activity");
+
+            migrationBuilder.DropTable(
                 name: "Catalog_ProductAttributeValue");
 
             migrationBuilder.DropTable(
@@ -2619,6 +2684,9 @@ namespace MaziStore.ApiServer.Home.Migrations
                 name: "ProductComparison_ComparingProduct");
 
             migrationBuilder.DropTable(
+                name: "ProductRecentlyViewed_RecentlyViewedProduct");
+
+            migrationBuilder.DropTable(
                 name: "Reviews_Reply");
 
             migrationBuilder.DropTable(
@@ -2629,6 +2697,9 @@ namespace MaziStore.ApiServer.Home.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tax_TaxRate");
+
+            migrationBuilder.DropTable(
+                name: "ActivityLog_ActivityType");
 
             migrationBuilder.DropTable(
                 name: "Catalog_ProductOption");

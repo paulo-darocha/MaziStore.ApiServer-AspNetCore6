@@ -22,6 +22,63 @@ namespace MaziStore.ApiServer.Home.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("MaziStore.Module.ActivityLog.Models.Activity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("ActivityTypeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<long>("EntityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("EntityTypeId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActivityTypeId");
+
+                    b.ToTable("ActivityLog_Activity", (string)null);
+                });
+
+            modelBuilder.Entity("MaziStore.Module.ActivityLog.Models.ActivityType", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ActivityLog_ActivityType", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Name = "EntityView"
+                        });
+                });
+
             modelBuilder.Entity("MaziStore.Module.Catalog.Models.Brand", b =>
                 {
                     b.Property<long>("Id")
@@ -1627,6 +1684,16 @@ namespace MaziStore.ApiServer.Home.Migrations
                             IsPublished = false,
                             Name = "Simple Product Widget",
                             ViewComponentName = "SimpleProductWidget"
+                        },
+                        new
+                        {
+                            Id = "RecentlyViewedWidget",
+                            CreateUrl = "widget-recently-viewed-create",
+                            CreatedOn = new DateTimeOffset(new DateTime(2018, 5, 29, 4, 33, 39, 164, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            EditUrl = "widget-recently-viewed-edit",
+                            IsPublished = false,
+                            Name = "Recently Viewed Widget",
+                            ViewComponentName = "RecentlyViewedWidget"
                         });
                 });
 
@@ -2492,6 +2559,28 @@ namespace MaziStore.ApiServer.Home.Migrations
                     b.ToTable("ProductComparison_ComparingProduct", (string)null);
                 });
 
+            modelBuilder.Entity("MaziStore.Module.ProductRecentlyViewed.Models.RecentlyViewedProduct", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<DateTimeOffset>("LatestViewedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductRecentlyViewed_RecentlyViewedProduct", (string)null);
+                });
+
             modelBuilder.Entity("MaziStore.Module.Reviews.Models.Reply", b =>
                 {
                     b.Property<long>("Id")
@@ -2882,6 +2971,17 @@ namespace MaziStore.ApiServer.Home.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("Core_UserToken", (string)null);
+                });
+
+            modelBuilder.Entity("MaziStore.Module.ActivityLog.Models.Activity", b =>
+                {
+                    b.HasOne("MaziStore.Module.ActivityLog.Models.ActivityType", "ActivityType")
+                        .WithMany()
+                        .HasForeignKey("ActivityTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ActivityType");
                 });
 
             modelBuilder.Entity("MaziStore.Module.Catalog.Models.Category", b =>

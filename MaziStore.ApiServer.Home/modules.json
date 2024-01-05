@@ -73,5 +73,15 @@
 		"id": "MaziStore.Module.Reviews",
 		"isBundledWithHost": true,
 		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.ActivityLog",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.ProductRecentlyViewed",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
 	}
 ]

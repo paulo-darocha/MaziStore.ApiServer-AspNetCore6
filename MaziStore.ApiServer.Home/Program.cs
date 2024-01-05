@@ -5,9 +5,13 @@ using MaziStore.Module.Infrastructure.Data;
 using MaziStore.Module.Infrastructure.Modules;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,14 +35,22 @@ app.Run();
 
 void ConfigureServices()
 {
-   builder.Services.AddControllers();
+   builder.Services
+      .AddControllers()
+      .AddJsonOptions(
+         x =>
+            x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
+      );
 
    GlobalVariables.WebRootPath = builder.Environment.WebRootPath;
    GlobalVariables.ContentRootPath = builder.Environment.ContentRootPath;
 
-   builder.Services.AddModules();
+   builder.Services.AddMaziModules();
+   builder.Services.AddMaziDataStore(builder.Configuration);
+   builder.Services.AddMaziCors();
+   builder.Services.AddMaziIdentity();
 
-   builder.Services.AddCustomizedDataStore(builder.Configuration);
+   //builder.Services.AddHttpContextAccessor();
 
    builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
    builder.Services.AddTransient(
@@ -72,7 +84,19 @@ void ConfigureServices()
 
 void Configure()
 {
+   if (app.Environment.IsDevelopment())
+   {
+      app.UseDeveloperExceptionPage();
+   }
    app.UseHttpsRedirection();
+
+   app.UseCors("CorsPolicy");
+
+   app.UseAuthentication();
+
+   app.UseAuthorization();
+
+   app.UseCookiePolicy();
 
    app.UseStaticFiles();
 
