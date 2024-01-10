@@ -14,6 +14,12 @@
     <ProjectReference Include="..\MaziStore.Module.Core\MaziStore.Module.Core.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<Content Include="Sample\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
 
 
 </Project>

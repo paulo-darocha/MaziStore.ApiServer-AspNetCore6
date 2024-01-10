@@ -101,4 +101,6 @@ void Configure()
    app.UseStaticFiles();
 
    app.MapControllerRoute("areas", "{area:exists}/{controller}/{action}/{id?}");
+
+   app.SetupMaziDatabase();
 }

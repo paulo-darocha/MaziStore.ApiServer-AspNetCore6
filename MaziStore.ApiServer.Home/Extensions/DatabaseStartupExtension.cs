@@ -1,0 +1,24 @@
+﻿using MaziStore.Module.Core.Data;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
+
+namespace MaziStore.ApiServer.Home.Extensions
+{
+   public static class DatabaseStartupExtension
+   {
+      public static void SetupMaziDatabase(this IApplicationBuilder app)
+      {
+         using (var scope = app.ApplicationServices.CreateScope())
+         {
+            MaziStoreDbContext dbContext =
+               scope.ServiceProvider.GetRequiredService<MaziStoreDbContext>();
+
+            dbContext.Database.EnsureDeleted();
+            dbContext.Database.Migrate();
+         }
+      }
+   }
+}

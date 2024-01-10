@@ -2319,6 +2319,16 @@ namespace MaziStore.ApiServer.Home.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Payments_PaymentProvider", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "CoD",
+                            ConfigureUrl = "payments-cod-config",
+                            IsEnabled = true,
+                            LandingViewComponentName = "CoDLanding",
+                            Name = "Cash On Delivery"
+                        });
                 });
 
             modelBuilder.Entity("MaziStore.Module.Pricing.Models.CartRule", b =>
@@ -2730,6 +2740,62 @@ namespace MaziStore.ApiServer.Home.Migrations
                     b.HasIndex("ShipmentId");
 
                     b.ToTable("Shipments_ShipmentItem", (string)null);
+                });
+
+            modelBuilder.Entity("MaziStore.Module.Shipping.Models.ShippingProvider", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AdditionalSettings")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ConfigureUrl")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("OnlyCountryIdsString")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("OnlyStateOrProvinceIdsString")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("ShippingPriceServiceTypeName")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("ToAllShippingEnabledCountries")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ToAllShippingEnabledStatesOrProvinces")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Shipping_ShippingProvider", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "FreeShip",
+                            AdditionalSettings = "{\"MinimumOrderAmount\" : 1}",
+                            ConfigureUrl = "",
+                            IsEnabled = true,
+                            Name = "Free Ship",
+                            ShippingPriceServiceTypeName = "MaziStore.Module.ShippingFree.Services.FreeShippingServiceProvider,MaziStore.Module.ShippingFree",
+                            ToAllShippingEnabledCountries = true,
+                            ToAllShippingEnabledStatesOrProvinces = true
+                        });
                 });
 
             modelBuilder.Entity("MaziStore.Module.ShoppingCart.Models.Cart", b =>

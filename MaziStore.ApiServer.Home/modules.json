@@ -83,5 +83,30 @@
 		"id": "MaziStore.Module.ProductRecentlyViewed",
 		"isBundledWithHost": true,
 		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.EmailSenderSmtp",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.ShippingPrices",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.Shipping",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.ShippingFree",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.PaymentCoD",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
 	}
 ]

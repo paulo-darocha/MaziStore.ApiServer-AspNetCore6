@@ -10,10 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Payments\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\MaziStore.Module.Infrastructure\MaziStore.Module.Infrastructure.csproj" />
     <ProjectReference Include="..\MaziStore.Module.Core\MaziStore.Module.Core.csproj" />
     <ProjectReference Include="..\MaziStore.Module.Order\MaziStore.Module.Orders.csproj" />

@@ -21,9 +21,11 @@
     <ProjectReference Include="..\Modules\MaziStore.Module.Catalog\MaziStore.Module.Catalog.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.Cms\MaziStore.Module.Cms.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.Core\MaziStore.Module.Core.csproj" />
+    <ProjectReference Include="..\Modules\MaziStore.Module.EmailSenderSmtp\MaziStore.Module.EmailSenderSmtp.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.Inventory\MaziStore.Module.Inventory.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.News\MaziStore.Module.News.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.Order\MaziStore.Module.Orders.csproj" />
+    <ProjectReference Include="..\Modules\MaziStore.Module.PaymentCoD\MaziStore.Module.PaymentCoD.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.Payments\MaziStore.Module.Payments.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.Pricing\MaziStore.Module.Pricing.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.ProductComparison\MaziStore.Module.ProductComparison.csproj" />
@@ -31,13 +33,12 @@
     <ProjectReference Include="..\Modules\MaziStore.Module.Reviews\MaziStore.Module.Reviews.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.SampleData\MaziStore.Module.SampleData.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.Shipments\MaziStore.Module.Shipments.csproj" />
+    <ProjectReference Include="..\Modules\MaziStore.Module.ShippingFree\MaziStore.Module.ShippingFree.csproj" />
+    <ProjectReference Include="..\Modules\MaziStore.Module.ShippingPrices\MaziStore.Module.ShippingPrices.csproj" />
+    <ProjectReference Include="..\Modules\MaziStore.Module.Shipping\MaziStore.Module.Shipping.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.ShoppingCart\MaziStore.Module.ShoppingCart.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.StorageLocal\MaziStore.Module.StorageLocal.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.Tax\MaziStore.Module.Tax.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

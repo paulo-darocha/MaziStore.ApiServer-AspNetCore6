@@ -10,10 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Order\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.25" />
   </ItemGroup>
 
@@ -21,6 +17,10 @@
     <ProjectReference Include="..\..\MaziStore.Module.Infrastructure\MaziStore.Module.Infrastructure.csproj" />
     <ProjectReference Include="..\MaziStore.Module.Catalog\MaziStore.Module.Catalog.csproj" />
     <ProjectReference Include="..\MaziStore.Module.Core\MaziStore.Module.Core.csproj" />
+    <ProjectReference Include="..\MaziStore.Module.ShippingPrices\MaziStore.Module.ShippingPrices.csproj" />
+    <ProjectReference Include="..\MaziStore.Module.Shipping\MaziStore.Module.Shipping.csproj" />
+    <ProjectReference Include="..\MaziStore.Module.ShoppingCart\MaziStore.Module.ShoppingCart.csproj" />
+    <ProjectReference Include="..\MaziStore.Module.Tax\MaziStore.Module.Tax.csproj" />
   </ItemGroup>
 
 

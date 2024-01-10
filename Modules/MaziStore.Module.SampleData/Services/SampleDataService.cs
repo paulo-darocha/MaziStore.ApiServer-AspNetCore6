@@ -41,7 +41,7 @@ namespace MaziStore.Module.SampleData.Services
 
          _sqlRepository.RunCommands(commands);
 
-         await CopyImages(sampleFolder);
+         //await CopyImages(sampleFolder);
       }
 
       private async Task CopyImages(string sampleFolder)

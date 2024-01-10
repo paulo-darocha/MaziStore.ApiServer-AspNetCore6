@@ -84,6 +84,20 @@ namespace MaziStore.Module.ShoppingCart.Areas.ShoppingCart.Controllers
          }
       }
 
+      [HttpGet("count")]
+      public async Task<IActionResult> CountItems()
+      {
+         var currentUser = await _workContext.GetCurrentUser();
+         var cart = await _cartService.GetActiveCartDetails(currentUser.Id);
+
+         if (cart == null)
+         {
+            cart = new CartVm(_currencyService);
+         }
+
+         return Ok(cart.Items.Count);
+      }
+
       [HttpGet("list/{id?}")]
       public async Task<IActionResult> List(long id = 0)
       {

@@ -15,7 +15,7 @@ namespace MaziStore.ApiServer.Home.Extensions
          services.AddDbContext<MaziStoreDbContext>(options =>
          {
             options.UseSqlServer(
-               configuration.GetConnectionString("DefaultConnection"),
+               configuration.GetConnectionString("MaziStoreConnection"),
                opt => opt.MigrationsAssembly("MaziStore.ApiServer.Home")
             );
             options.EnableSensitiveDataLogging(true);
