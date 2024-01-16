@@ -6,6 +6,7 @@ using MaziStore.Module.ShoppingCart.Models;
 using MaziStore.Module.ShoppingCart.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -46,6 +47,7 @@ namespace MaziStore.Module.ShoppingCart.Areas.ShoppingCart.Controllers
          long id = 0
       )
       {
+         Console.WriteLine($"\nID recebido (add): {id}\n");
          if (id == 0)
          {
             id = (await _workContext.GetCurrentUser()).Id;
@@ -84,11 +86,16 @@ namespace MaziStore.Module.ShoppingCart.Areas.ShoppingCart.Controllers
          }
       }
 
-      [HttpGet("count")]
-      public async Task<IActionResult> CountItems()
+      [HttpGet("count/{id}")]
+      public async Task<IActionResult> CountItems(long id = 0)
       {
-         var currentUser = await _workContext.GetCurrentUser();
-         var cart = await _cartService.GetActiveCartDetails(currentUser.Id);
+         Console.WriteLine($"\nID recebido (count): {id}\n");
+         if (id == 0)
+         {
+            id = (await _workContext.GetCurrentUser()).Id;
+         }
+
+         var cart = await _cartService.GetActiveCartDetails(id);
 
          if (cart == null)
          {
@@ -101,6 +108,7 @@ namespace MaziStore.Module.ShoppingCart.Areas.ShoppingCart.Controllers
       [HttpGet("list/{id?}")]
       public async Task<IActionResult> List(long id = 0)
       {
+         Console.WriteLine($"\nID recebido (lista): {id}\n");
          if (id == 0)
          {
             id = (await _workContext.GetCurrentUser()).Id;
@@ -122,6 +130,7 @@ namespace MaziStore.Module.ShoppingCart.Areas.ShoppingCart.Controllers
          long id = 0
       )
       {
+         Console.WriteLine($"\nID recebido (update): {id}\n");
          if (model.Quantity <= 0)
          {
             return BadRequest("The quantity must be larger than zero.");
@@ -180,6 +189,7 @@ namespace MaziStore.Module.ShoppingCart.Areas.ShoppingCart.Controllers
          long id
       )
       {
+         Console.WriteLine($"\nID recebido (remove): {id}\n");
          if (id == 0)
          {
             id = (await _workContext.GetCurrentUser()).Id;

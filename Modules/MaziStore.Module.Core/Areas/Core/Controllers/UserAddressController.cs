@@ -1,50 +1,51 @@
 ﻿using MaziStore.Module.Core.Areas.Core.ViewModels;
-using MaziStore.Module.Core.Extensions;
 using MaziStore.Module.Core.Models;
 using MaziStore.Module.Infrastructure.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 
 namespace MaziStore.Module.Core.Areas.Core.Controllers
 {
+   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
    [ApiController]
    [Area("Core")]
    [Route("api/[controller]")]
    public class UserAddressController : ControllerBase
    {
       private readonly IRepository<UserAddress> _userAddressRepository;
-      private readonly IRepositoryWithTypedId<Country, string> _countryRespository;
+      private readonly IRepositoryWithTypedId<Country, string> _countryRepository;
       private readonly IRepository<StateOrProvince> _stateOrProvinceRepository;
       private readonly IRepository<District> _districtRepository;
       private readonly IRepository<User> _userRepository;
-      private readonly IWorkContext _workContext;
+      private readonly UserManager<User> _userManager;
 
       public UserAddressController(
          IRepository<UserAddress> userAddressRepository,
-         IRepositoryWithTypedId<Country, string> countryRespository,
+         IRepositoryWithTypedId<Country, string> countryRepository,
          IRepository<StateOrProvince> stateOrProvinceRepository,
          IRepository<District> districtRepository,
          IRepository<User> userRepository,
-         IWorkContext workContext
+         UserManager<User> userManager
       )
       {
          _userAddressRepository = userAddressRepository;
-         _countryRespository = countryRespository;
+         _countryRepository = countryRepository;
          _stateOrProvinceRepository = stateOrProvinceRepository;
          _districtRepository = districtRepository;
          _userRepository = userRepository;
-         _workContext = workContext;
+         _userManager = userManager;
       }
 
       [HttpGet]
       public async Task<IActionResult> List()
       {
-         var currentUser = await _workContext.GetCurrentUser();
+         var currentUser = await _userManager.FindByEmailAsync(User.Identity.Name);
          var model = _userAddressRepository
             .QueryRp()
             .Where(
@@ -85,7 +86,7 @@ namespace MaziStore.Module.Core.Areas.Core.Controllers
       [HttpGet("{countryId}")]
       public async Task<IActionResult> GetStateFromCountry(string countryId)
       {
-         var country = await _countryRespository
+         var country = await _countryRepository
             .QueryRp()
             .Include(x => x.StatesOrProvinces)
             .FirstOrDefaultAsync(x => x.Id == countryId);
@@ -127,7 +128,9 @@ namespace MaziStore.Module.Core.Areas.Core.Controllers
       {
          if (ModelState.IsValid)
          {
-            var currentUser = await _workContext.GetCurrentUser();
+            var currentUser = await _userManager.FindByEmailAsync(
+               User.Identity.Name
+            );
             var address = new Address
             {
                AddressLine1 = model.AddressLine1,
@@ -200,7 +203,7 @@ namespace MaziStore.Module.Core.Areas.Core.Controllers
       // ////////////////////////////////////////////////
       private void PopulateAddressFormData(AddressFormVm model)
       {
-         var shippableCountries = _countryRespository
+         var shippableCountries = _countryRepository
             .QueryRp()
             .Where(x => x.IsShippingEnabled)
             .OrderBy(x => x.Name);

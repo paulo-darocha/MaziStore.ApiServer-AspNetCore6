@@ -30,6 +30,7 @@
     <ProjectReference Include="..\Modules\MaziStore.Module.Pricing\MaziStore.Module.Pricing.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.ProductComparison\MaziStore.Module.ProductComparison.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.ProductRecentlyViewed\MaziStore.Module.ProductRecentlyViewed.csproj" />
+    <ProjectReference Include="..\Modules\MaziStore.Module.PublicComments\MaziStore.Module.PublicComments.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.Reviews\MaziStore.Module.Reviews.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.SampleData\MaziStore.Module.SampleData.csproj" />
     <ProjectReference Include="..\Modules\MaziStore.Module.Shipments\MaziStore.Module.Shipments.csproj" />

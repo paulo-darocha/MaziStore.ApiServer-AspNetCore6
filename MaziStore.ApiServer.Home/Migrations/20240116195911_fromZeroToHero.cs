@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MaziStore.ApiServer.Home.Migrations
 {
-    public partial class FromZeroToHero : Migration
+    public partial class fromZeroToHero : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -334,6 +334,23 @@ namespace MaziStore.ApiServer.Home.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductRecentlyViewed_RecentlyViewedProduct", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PublicComments_PublicComment",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PublicCommentId = table.Column<int>(type: "int", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PublicComments_PublicComment", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -2715,6 +2732,9 @@ namespace MaziStore.ApiServer.Home.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductRecentlyViewed_RecentlyViewedProduct");
+
+            migrationBuilder.DropTable(
+                name: "PublicComments_PublicComment");
 
             migrationBuilder.DropTable(
                 name: "Reviews_Reply");

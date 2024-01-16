@@ -1,8 +1,12 @@
 ﻿using MaziStore.Module.Core.Extensions;
+using MaziStore.Module.Core.Models;
 using MaziStore.Module.Core.Services;
 using MaziStore.Module.Infrastructure.Data;
 using MaziStore.Module.Orders.Areas.Orders.ViewModels;
 using MaziStore.Module.Orders.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -10,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace MaziStore.Module.Orders.Areas.Orders.Controllers
 {
+   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
    [ApiController]
    [Area("Orders")]
    [Route("api/[controller]")]
@@ -17,26 +22,26 @@ namespace MaziStore.Module.Orders.Areas.Orders.Controllers
    {
       private readonly IMediaService _mediaService;
       private readonly IRepository<Order> _orderRepository;
-      private readonly IWorkContext _workContext;
+      private readonly UserManager<User> _userManager;
       private readonly ICurrencyService _currencyService;
 
       public OrderController(
          IMediaService mediaService,
          IRepository<Order> orderRepository,
-         IWorkContext workContext,
+         UserManager<User> userManager,
          ICurrencyService currencyService
       )
       {
          _mediaService = mediaService;
          _orderRepository = orderRepository;
-         _workContext = workContext;
+         _userManager = userManager;
          _currencyService = currencyService;
       }
 
       [HttpGet("list")]
       public async Task<IActionResult> OrderHistoryList()
       {
-         var user = await _workContext.GetCurrentUser();
+         var user = await _userManager.FindByEmailAsync(User.Identity.Name);
          var model = await _orderRepository
             .QueryRp()
             .Where(x => x.CustomerId == user.Id && x.ParentId == null)
@@ -95,7 +100,7 @@ namespace MaziStore.Module.Orders.Areas.Orders.Controllers
       [HttpGet("{orderId}")]
       public async Task<IActionResult> OrderDetails(long orderId)
       {
-         var user = await _workContext.GetCurrentUser();
+         var user = await _userManager.FindByEmailAsync(User.Identity.Name);
 
          var order = _orderRepository
             .QueryRp()

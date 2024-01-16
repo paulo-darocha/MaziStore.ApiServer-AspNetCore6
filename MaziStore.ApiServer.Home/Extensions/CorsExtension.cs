@@ -12,7 +12,12 @@ namespace MaziStore.ApiServer.Home.Extensions
                   "CorsPolicy",
                   builder =>
                      builder
-                        .WithOrigins("https://localhost:5173")
+                        .WithOrigins(
+                           "http://localhost:8000",
+                           "http://3.10.173.253:8000",
+                           "http://store.paulodarocha.eu",
+                           "https://store.paulodarocha.eu"
+                        )
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials()

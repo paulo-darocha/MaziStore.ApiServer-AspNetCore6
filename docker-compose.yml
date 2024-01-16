@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  ms_sql_server:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: "ms_sql_server"
+    ports:
+      - "1433:1433"
+    expose:
+      - "1433"
+    networks:
+      - mazinet
+    volumes:
+      - sqlvolume:/var/opt/mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Mateus24:14
+      - MSSQL_PID=Developer
+
+  mazi_api:
+    # build:
+    # dockerfile: MaziStore.ApiServer.Home/Dockerfile
+    image: 8a68c90b77f5f441fdbbeb3aebe0ac4da5cefdf94e725d69e0382cf307d26e6c
+    container_name: mazi_api
+    depends_on:
+      - ms_sql_server
+    networks:
+      - mazinet
+    # expose:
+    #   - 32788
+    ports:
+      - "80:80"
+      - "443:443"
+    # restart: always
+    # environment:
+    #   - ASPNETCORE_ENVIRONMENT=Production
+    #   - ASPNETCORE_URLS=http://+:80;https://+:443
+    #   - ASPNETCORE_Kestrel__Certificates__Default__Password=962752692
+    #   - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    # volumes:
+    #   - ~/.aspnet/https:/https:ro
+
+  mazi_uiapp:
+    image: d085e82e8ca7898106079d14379f3db43ca71637a3fa21d80674b1be5c51199f
+    container_name: mazi_uiapp
+    depends_on:
+      - mazi_api
+    networks:
+      - mazinet
+    ports:
+      - "8000:8000"
+
+networks:
+  mazinet:
+    driver: bridge
+
+volumes:
+  sqlvolume:

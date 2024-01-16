@@ -2591,6 +2591,38 @@ namespace MaziStore.ApiServer.Home.Migrations
                     b.ToTable("ProductRecentlyViewed_RecentlyViewedProduct", (string)null);
                 });
 
+            modelBuilder.Entity("MaziStore.Module.PublicComments.Models.PublicComment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("Comment")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("PublicCommentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PublicComments_PublicComment", (string)null);
+                });
+
             modelBuilder.Entity("MaziStore.Module.Reviews.Models.Reply", b =>
                 {
                     b.Property<long>("Id")

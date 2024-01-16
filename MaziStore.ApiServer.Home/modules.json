@@ -108,5 +108,10 @@
 		"id": "MaziStore.Module.PaymentCoD",
 		"isBundledWithHost": true,
 		"version": "1.0.0"
+	},
+	{
+		"id": "MaziStore.Module.PublicComments",
+		"isBundledWithHost": true,
+		"version": "1.0.0"
 	}
 ]

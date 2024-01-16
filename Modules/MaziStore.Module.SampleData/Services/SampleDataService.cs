@@ -24,6 +24,12 @@ namespace MaziStore.Module.SampleData.Services
 
       public async Task ResetToSampleData(SampleDataOption model)
       {
+         //var sampleFolder = Path.Combine(
+         //   GlobalVariables.ContentRootPath,
+         //   "Sample",
+         //   model.Industry
+         //);
+
          var sampleFolder = Path.Combine(
             GlobalVariables.ContentRootPath,
             @"../",

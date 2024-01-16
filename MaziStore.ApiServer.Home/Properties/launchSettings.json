@@ -1,14 +1,14 @@
 {
   "profiles": {
-    "MaziStore.ApiServer.Home": {
+   "MaziStore.ApiServer.Home": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7000;http://localhost:5000"
-    },
+   },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
@@ -21,7 +21,7 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
       "environmentVariables": {
-        "ASPNETCORE_URLS": "https://+:443;http://+:80"
+        "ASPNETCORE_URLS": "https://+:7000;http://+:5000"
       },
       "publishAllPorts": true,
       "useSSL": true

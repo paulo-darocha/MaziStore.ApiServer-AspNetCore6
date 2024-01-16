@@ -23,6 +23,7 @@ namespace MaziStore.Module.Core.Areas.Core.Controllers
       [HttpGet]
       public IActionResult Index()
       {
+         //var sampleFolder = Path.Combine(GlobalVariables.ContentRootPath, "Sample");
          var sampleFolder = Path.Combine(
             GlobalVariables.ContentRootPath,
             @"../",

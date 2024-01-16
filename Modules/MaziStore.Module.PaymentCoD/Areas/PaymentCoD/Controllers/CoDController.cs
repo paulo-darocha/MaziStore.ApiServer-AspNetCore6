@@ -1,10 +1,14 @@
 ﻿using MaziStore.Module.Core.Extensions;
+using MaziStore.Module.Core.Models;
 using MaziStore.Module.Infrastructure.Data;
 using MaziStore.Module.Orders.Services;
 using MaziStore.Module.PaymentCoD.Models;
 using MaziStore.Module.Payments.Models;
 using MaziStore.Module.ShoppingCart.Areas.ShoppingCart.ViewModels;
 using MaziStore.Module.ShoppingCart.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -13,13 +17,14 @@ using System.Threading.Tasks;
 
 namespace MaziStore.Module.PaymentCoD.Areas.PaymentCoD.Controllers
 {
+   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
    [ApiController]
    [Area("PaymentCoD")]
    [Route("api/[controller]")]
    public class CoDController : ControllerBase
    {
       private readonly IOrderService _orderService;
-      private readonly IWorkContext _workContext;
+      private readonly UserManager<User> _userManager;
       private readonly ICartService _cartService;
       private readonly IRepositoryWithTypedId<
          PaymentProvider,
@@ -29,13 +34,13 @@ namespace MaziStore.Module.PaymentCoD.Areas.PaymentCoD.Controllers
 
       public CoDController(
          IOrderService orderService,
-         IWorkContext workContext,
+         UserManager<User> userManager,
          ICartService cartService,
          IRepositoryWithTypedId<PaymentProvider, string> paymentProviderRepository
       )
       {
          _orderService = orderService;
-         _workContext = workContext;
+         _userManager = userManager;
          _cartService = cartService;
          _paymentProviderRepository = paymentProviderRepository;
          _setting = new Lazy<CoDSetting>(GetSetting());
@@ -44,7 +49,7 @@ namespace MaziStore.Module.PaymentCoD.Areas.PaymentCoD.Controllers
       [HttpGet]
       public async Task<IActionResult> CoDCheckout()
       {
-         var currentUser = await _workContext.GetCurrentUser();
+         var currentUser = await _userManager.FindByEmailAsync(User.Identity.Name);
          var cart = await _cartService.GetActiveCartDetails(currentUser.Id);
 
          if (cart == null)

@@ -7,8 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MaziStore.Module.Core.Areas.Core.Controllers
@@ -90,13 +93,39 @@ namespace MaziStore.Module.Core.Areas.Core.Controllers
             {
                User user = await _userManager.FindByEmailAsync(model.Email);
 
-               //await _signInManager.ClaimsFactory.CreateAsync(user);
+               await _signInManager.ClaimsFactory.CreateAsync(user);
 
-               return Ok("User logged successfully");
-            }
-            else
-            {
-               ModelState.AddModelError("", "Invalid Username or Password");
+               SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+               {
+                  Subject = (
+                     await _signInManager.CreateUserPrincipalAsync(user)
+                  ).Identities.First(),
+                  Expires = DateTime.Now.AddMinutes(
+                     int.Parse(_configuration["BearerTokens:ExpiryMins"])
+                  ),
+                  SigningCredentials = new SigningCredentials(
+                     new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(_configuration["BearerTokens:Key"])
+                     ),
+                     SecurityAlgorithms.HmacSha256Signature
+                  ),
+               };
+
+               JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+               SecurityToken securityToken =
+                  new JwtSecurityTokenHandler().CreateToken(tokenDescriptor);
+
+               var userResult = new UserResult
+               {
+                  Id = user.Id,
+                  Succeeded = true,
+                  Message = "User logged in successfully.",
+                  Token = tokenHandler.WriteToken(securityToken),
+                  FullName = user.FullName,
+                  Email = user.Email
+               };
+
+               return Ok(userResult);
             }
          }
          return BadRequest(ModelState);

@@ -1,9 +1,12 @@
-﻿using MaziStore.Module.Core.Extensions;
+﻿using MaziStore.Module.Core.Models;
 using MaziStore.Module.Infrastructure.Data;
 using MaziStore.Module.Orders.Services;
 using MaziStore.Module.Payments.Areas.Payments.ViewModels;
 using MaziStore.Module.Payments.Models;
 using MaziStore.Module.ShoppingCart.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -11,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace MaziStore.Module.Payments.Areas.Payments.Controllers
 {
+   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
    [ApiController]
    [Area("Payments")]
    [Route("api/[controller]")]
@@ -22,25 +26,25 @@ namespace MaziStore.Module.Payments.Areas.Payments.Controllers
       > _paymentProviderRepository;
       private readonly ICartService _cartService;
       private readonly IOrderService _orderService;
-      private readonly IWorkContext _workContext;
+      private readonly UserManager<User> _userManager;
 
       public CheckoutController(
          IRepositoryWithTypedId<PaymentProvider, string> paymentProviderRepository,
          ICartService cartService,
          IOrderService orderService,
-         IWorkContext workContext
+         UserManager<User> userManager
       )
       {
          _paymentProviderRepository = paymentProviderRepository;
          _cartService = cartService;
          _orderService = orderService;
-         _workContext = workContext;
+         _userManager = userManager;
       }
 
       [HttpGet("payment")]
       public async Task<IActionResult> Payment()
       {
-         var currentUser = await _workContext.GetCurrentUser();
+         var currentUser = await _userManager.FindByEmailAsync(User.Identity.Name);
          var cart = await _cartService.GetActiveCart(currentUser.Id);
          if (cart == null)
          {

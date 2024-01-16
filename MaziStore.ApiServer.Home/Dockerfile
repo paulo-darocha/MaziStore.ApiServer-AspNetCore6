@@ -2,8 +2,8 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 5000
+EXPOSE 7000
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
@@ -12,6 +12,7 @@ RUN dotnet restore "MaziStore.ApiServer.Home/MaziStore.ApiServer.Home.csproj"
 COPY . .
 WORKDIR "/src/MaziStore.ApiServer.Home"
 RUN dotnet build "MaziStore.ApiServer.Home.csproj" -c Release -o /app/build
+
 
 FROM build AS publish
 RUN dotnet publish "MaziStore.ApiServer.Home.csproj" -c Release -o /app/publish /p:UseAppHost=false
