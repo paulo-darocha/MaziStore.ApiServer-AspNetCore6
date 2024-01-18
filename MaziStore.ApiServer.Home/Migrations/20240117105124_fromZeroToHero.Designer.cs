@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MaziStore.ApiServer.Home.Migrations
 {
     [DbContext(typeof(MaziStoreDbContext))]
-    [Migration("20240116195911_fromZeroToHero")]
+    [Migration("20240117105124_fromZeroToHero")]
     partial class fromZeroToHero
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -2602,8 +2602,12 @@ namespace MaziStore.ApiServer.Home.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("Comment")
+                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(200)

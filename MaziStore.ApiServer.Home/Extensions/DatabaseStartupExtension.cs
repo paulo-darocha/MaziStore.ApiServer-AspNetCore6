@@ -19,7 +19,7 @@ namespace MaziStore.ApiServer.Home.Extensions
             MaziStoreDbContext dbContext =
                scope.ServiceProvider.GetRequiredService<MaziStoreDbContext>();
 
-            //dbContext.Database.EnsureCreated();
+            //dbContext.Database.EnsureDeleted();
 
             dbContext.Database.Migrate();
          }

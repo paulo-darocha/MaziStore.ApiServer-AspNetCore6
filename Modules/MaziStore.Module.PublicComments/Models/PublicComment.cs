@@ -1,4 +1,5 @@
 ﻿using MaziStore.Module.Infrastructure.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MaziStore.Module.PublicComments.Models
@@ -7,6 +8,9 @@ namespace MaziStore.Module.PublicComments.Models
    {
       public int PublicCommentId { get; set; }
 
+      public DateTime CreatedOn { get; set; }
+
+      [Required]
       [MaxLength(1000)]
       public string Comment { get; set; }
 

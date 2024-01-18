@@ -29,6 +29,27 @@ namespace MaziStore.Module.Infrastructure.Web.SmartTable
          };
       }
 
+      public static SmartTableResult<TResult> ToSmartTableResult<TModel, TResult>(
+         this IQueryable<TModel> query,
+         SmartTableParam param,
+         Expression<Func<TModel, TResult>> selector
+      )
+      {
+         var totalRecord = query.Count();
+         query = query.AppendSortAndPagination(param);
+         var items = query.Select(selector).ToList();
+
+         return new SmartTableResult<TResult>
+         {
+            Items = items,
+            TotalRecord = totalRecord,
+            NumberOfPages = (int)
+               Math.Ceiling((double)totalRecord / param.Pagination.Number)
+         };
+      }
+
+      // ////////////////////////////////////////////////////////
+
       private static IQueryable<TModel> AppendSortAndPagination<TModel>(
          this IQueryable<TModel> query,
          SmartTableParam param

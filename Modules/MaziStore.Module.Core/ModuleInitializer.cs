@@ -19,6 +19,7 @@ namespace MaziStore.Module.Core
             INotificationHandler<UserSignedIn>,
             UserSignedInHandler
          >();
+         services.AddTransient<IEntityService, EntityService>();
       }
    }
 }

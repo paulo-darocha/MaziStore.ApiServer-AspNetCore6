@@ -1,10 +1,14 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MaziStore.ApiServer.Home.Extensions
 {
    public static class CorsExtension
    {
-      public static IServiceCollection AddMaziCors(this IServiceCollection services)
+      public static IServiceCollection AddMaziCors(
+         this IServiceCollection services,
+         IConfiguration configuration
+      )
       {
          services.AddCors(
             options =>
@@ -12,12 +16,7 @@ namespace MaziStore.ApiServer.Home.Extensions
                   "CorsPolicy",
                   builder =>
                      builder
-                        .WithOrigins(
-                           "http://localhost:8000",
-                           "http://3.10.173.253:8000",
-                           "http://store.paulodarocha.eu",
-                           "https://store.paulodarocha.eu"
-                        )
+                        .WithOrigins(configuration["AllowedOrigin"])
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials()

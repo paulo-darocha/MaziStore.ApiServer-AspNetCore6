@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MaziStore.Module.PublicComments.Areas.PublicComments.ViewModels
 {
@@ -6,6 +7,8 @@ namespace MaziStore.Module.PublicComments.Areas.PublicComments.ViewModels
    {
       [MaxLength(1000)]
       public string Comment { get; set; }
+
+      public DateTime CreatedOn { get; set; }
 
       [MaxLength(200)]
       public string Title { get; set; }

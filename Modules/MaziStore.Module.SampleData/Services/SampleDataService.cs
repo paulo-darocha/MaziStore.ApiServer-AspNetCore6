@@ -2,6 +2,7 @@
 using MaziStore.Module.Infrastructure;
 using MaziStore.Module.SampleData.Areas.SampleData.ViewModels;
 using MaziStore.Module.SampleData.Data;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -12,14 +13,17 @@ namespace MaziStore.Module.SampleData.Services
    {
       private readonly ISqlRepository _sqlRepository;
       private readonly IMediaService _mediaService;
+      private readonly IConfiguration _configuration;
 
       public SampleDataService(
          ISqlRepository sqlRepository,
-         IMediaService mediaService
+         IMediaService mediaService,
+         IConfiguration configuration
       )
       {
          _sqlRepository = sqlRepository;
          _mediaService = mediaService;
+         _configuration = configuration;
       }
 
       public async Task ResetToSampleData(SampleDataOption model)
@@ -32,10 +36,7 @@ namespace MaziStore.Module.SampleData.Services
 
          var sampleFolder = Path.Combine(
             GlobalVariables.ContentRootPath,
-            @"../",
-            "Modules",
-            "MaziStore.Module.SampleData",
-            "Sample",
+            _configuration["SampleFolder"],
             model.Industry
          );
 

@@ -9,6 +9,7 @@ namespace MaziStore.Module.Catalog
       public void ConfigureServices(IServiceCollection services)
       {
          services.AddTransient<IProductPricingService, ProductPricingService>();
+         services.AddTransient<IProductService, ProductService>();
       }
    }
 }

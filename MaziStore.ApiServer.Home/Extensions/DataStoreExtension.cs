@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace MaziStore.ApiServer.Home.Extensions
 {
@@ -14,8 +15,12 @@ namespace MaziStore.ApiServer.Home.Extensions
       {
          services.AddDbContext<MaziStoreDbContext>(options =>
          {
+            var connectionString = configuration.GetConnectionString(
+               "MaziStoreConnection"
+            );
+            Console.WriteLine($"\n\nConnection String: {connectionString}\n");
             options.UseSqlServer(
-               configuration.GetConnectionString("MaziStoreConnection"),
+               connectionString,
                opt => opt.MigrationsAssembly("MaziStore.ApiServer.Home")
             );
             options.EnableSensitiveDataLogging(true);

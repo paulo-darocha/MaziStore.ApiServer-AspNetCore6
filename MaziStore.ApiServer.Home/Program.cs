@@ -19,7 +19,6 @@ namespace MaziStore.ApiServer.Home
       public static void Main(string[] args)
       {
          var builder = WebApplication.CreateBuilder(args);
-         //builder.WebHost.UseUrls("https://*:7000");
 
          // ////////////////////////////
 
@@ -55,7 +54,7 @@ namespace MaziStore.ApiServer.Home
 
          builder.Services.AddMaziModules();
          builder.Services.AddMaziDataStore(builder.Configuration);
-         builder.Services.AddMaziCors();
+         builder.Services.AddMaziCors(builder.Configuration);
          builder.Services.AddMaziIdentity(builder.Configuration);
 
          //builder.Services.AddHttpContextAccessor();
@@ -95,14 +94,14 @@ namespace MaziStore.ApiServer.Home
          if (app.Environment.IsDevelopment())
          {
             app.UseDeveloperExceptionPage();
+            app.UseHttpsRedirection();
          }
-         //app.UseHttpsRedirection();
 
          app.Use(
             (httpContext, nextDelegate) =>
             {
                httpContext.Response.Headers["Access-Control-Allow-Origin"] =
-                  "http://store.paulodarocha.eu;http://localhost:8000";
+                  app.Configuration["AllowedOrigin"];
                return nextDelegate.Invoke();
             }
          );

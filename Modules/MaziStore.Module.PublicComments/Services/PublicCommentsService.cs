@@ -1,6 +1,7 @@
 ﻿using MaziStore.Module.Infrastructure.Data;
 using MaziStore.Module.PublicComments.Areas.PublicComments.ViewModels;
 using MaziStore.Module.PublicComments.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,7 +25,8 @@ namespace MaziStore.Module.PublicComments.Services
             Comment = model.Comment,
             Title = model.Title,
             Name = model.Name,
-            Email = model.Email
+            Email = model.Email,
+            CreatedOn = DateTime.Now
          };
          _publicCommentRepository.AddRp(comment);
          _publicCommentRepository.SaveChangesRp();
