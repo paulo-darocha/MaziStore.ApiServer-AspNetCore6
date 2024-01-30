@@ -1,17 +1,21 @@
 ﻿using MaziStore.Module.Catalog.Areas.Catalog.ViewModels;
 using MaziStore.Module.Catalog.Models;
-using MaziStore.Module.Core.Extensions;
+using MaziStore.Module.Catalog.Services;
 using MaziStore.Module.Core.Models;
 using MaziStore.Module.Core.Services;
 using MaziStore.Module.Infrastructure.Data;
+using MaziStore.Module.Infrastructure.Helpers;
 using MaziStore.Module.Infrastructure.Web.SmartTable;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -30,6 +34,7 @@ namespace MaziStore.Module.Catalog.Areas.Catalog.Controllers
       private readonly IRepository<ProductLink> _productLinkRepository;
       private readonly IRepository<ProductOptionValue> _productOptionValueRepository;
       private readonly IRepository<Product> _productRepository;
+      private readonly IProductService _productService;
       private readonly IRepository<ProductMedia> _productMediaRepository;
       private readonly UserManager<User> _userManager;
 
@@ -40,6 +45,7 @@ namespace MaziStore.Module.Catalog.Areas.Catalog.Controllers
          IRepository<ProductLink> productLinkRepository,
          IRepository<ProductOptionValue> productOptionValueRepository,
          IRepository<Product> productRepository,
+         IProductService productService,
          IRepository<ProductMedia> productMediaRepository,
          UserManager<User> userManager
       )
@@ -50,11 +56,12 @@ namespace MaziStore.Module.Catalog.Areas.Catalog.Controllers
          _productLinkRepository = productLinkRepository;
          _productOptionValueRepository = productOptionValueRepository;
          _productRepository = productRepository;
+         _productService = productService;
          _productMediaRepository = productMediaRepository;
          _userManager = userManager;
       }
 
-      [HttpPost]
+      [HttpPost("list")]
       public async Task<IActionResult> List([FromBody] SmartTableParam param)
       {
          var query = _productRepository.QueryRp().Where(x => !x.IsDeleted);
@@ -132,7 +139,7 @@ namespace MaziStore.Module.Catalog.Areas.Catalog.Controllers
       }
 
       [HttpGet("{id}")]
-      public async Task<IActionResult> Get(long id)
+      public async Task<IActionResult> GetProduct(long id)
       {
          var product = _productRepository
             .QueryRp()
@@ -326,6 +333,95 @@ namespace MaziStore.Module.Catalog.Areas.Catalog.Controllers
          return Ok(productVm);
       }
 
+      [HttpPost]
+      public async Task<IActionResult> Post([FromForm] ProductForm model)
+      {
+         MapUploadedFile(model);
+         if (!ModelState.IsValid)
+         {
+            return BadRequest(ModelState);
+         }
+         var currentUser = await _userManager.FindByEmailAsync(User.Identity.Name);
+
+         var product = new Product
+         {
+            Name = model.Product.Name,
+            Slug = model.Product.Slug,
+            MetaTitle = model.Product.MetaTitle,
+            MetaKeywords = model.Product.MetaKeywords,
+            MetaDescription = model.Product.MetaDescription,
+            Sku = model.Product.Sku,
+            Gtin = model.Product.Gtin,
+            ShortDescription = model.Product.ShortDescription,
+            Description = model.Product.Description,
+            Specification = model.Product.Specification,
+            Price = model.Product.Price,
+            OldPrice = model.Product.OldPrice,
+            SpecialPrice = model.Product.SpecialPrice,
+            SpecialPriceStart = model.Product.SpecialPriceStart,
+            SpecialPriceEnd = model.Product.SpecialPriceEnd,
+            IsPublished = model.Product.IsPublished,
+            IsFeatured = model.Product.IsFeatured,
+            IsCallForPricing = model.Product.IsCallForPricing,
+            IsAllowToOrder = model.Product.IsAllowToOrder,
+            BrandId = model.Product.BrandId,
+            TaxClassId = model.Product.TaxClassId,
+            StockTrackingIsEnabled = model.Product.StockTrackingIsEnabled,
+            HasOptions = model.Product.Variations.Any() ? true : false,
+            IsVisibleIndividually = true,
+            CreatedBy = currentUser,
+            LatestUpdatedBy = currentUser
+         };
+
+         if (!User.IsInRole("admin"))
+         {
+            product.VendorId = currentUser.VendorId;
+         }
+
+         var optionIndex = 0;
+         foreach (var option in model.Product.Options)
+         {
+            product.AddOptionValue(
+               new ProductOptionValue
+               {
+                  OptionId = option.Id,
+                  DisplayType = option.DisplayType,
+                  Value = JsonSerializer.Serialize(option.Values),
+                  SortIndex = optionIndex
+               }
+            );
+            optionIndex++;
+         }
+
+         foreach (var attribute in model.Product.Attributes)
+         {
+            var attributeValue = new ProductAttributeValue
+            {
+               AttributeId = attribute.Id,
+               Value = attribute.Value
+            };
+            product.AddAttributeValue(attributeValue);
+         }
+
+         foreach (var categoryId in model.Product.CategoryIds)
+         {
+            var productCategory = new ProductCategory { CategoryId = categoryId };
+            product.AddCategory(productCategory);
+         }
+
+         await SaveProductMedias(model, product);
+
+         await MapProductVariationVmToProduct(currentUser, model, product);
+
+         MapProductLinkVmToProduct(model, product);
+
+         var productPriceHistory = CreatePriceHistory(currentUser, product);
+         product.PriceHistories.Add(productPriceHistory);
+
+         _productService.Create(product);
+         return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, null);
+      }
+
       // ////////////////////////////////////////////////////
 
       private IEnumerable<string> GetProductImageUrls(long productId)
@@ -339,6 +435,236 @@ namespace MaziStore.Module.Catalog.Areas.Catalog.Controllers
             .Select(x => _mediaService.GetMediaUrl(x));
 
          return imageUrls;
+      }
+
+      private void MapUploadedFile(ProductForm model)
+      {
+         foreach (var file in Request.Form.Files)
+         {
+            if (file.Name.Contains("productImages"))
+            {
+               model.ProductImages.Add(file);
+            }
+            else if (file.Name.Contains("productDocuments"))
+            {
+               model.ProductDocuments.Add(file);
+            }
+            else if (file.Name.Contains("product[variations]"))
+            {
+               var key = file.Name.Replace("product", "");
+               var keyParts = key.Split(
+                  new char[] { '[', ']' },
+                  StringSplitOptions.RemoveEmptyEntries
+               );
+               var variantIndex = int.Parse(keyParts[1]);
+               if (key.Contains("newImages"))
+               {
+                  model.Product.Variations[variantIndex].NewImages.Add(file);
+               }
+               else
+               {
+                  model.Product.Variations[variantIndex].ThumbnailImage = file;
+               }
+            }
+         }
+      }
+
+      private async Task SaveProductMedias(ProductForm model, Product product)
+      {
+         if (model.ThumbnailImage != null)
+         {
+            var fileName = await SaveFile(model.ThumbnailImage);
+            if (product.ThumbnailImage != null)
+            {
+               product.ThumbnailImage.FileName = fileName;
+            }
+            else
+            {
+               product.ThumbnailImage = new Media { FileName = fileName };
+            }
+         }
+
+         foreach (var file in model.ProductImages)
+         {
+            var fileName = await SaveFile(file);
+            var productMedia = new ProductMedia
+            {
+               Product = product,
+               Media = new Media
+               {
+                  FileName = fileName,
+                  MediaType = MediaType.Image
+               }
+            };
+            product.AddMedia(productMedia);
+         }
+
+         foreach (var file in model.ProductDocuments)
+         {
+            var fileName = await SaveFile(file);
+            var productMedia = new ProductMedia
+            {
+               Product = product,
+               Media = new Media
+               {
+                  FileName = fileName,
+                  MediaType = MediaType.File,
+                  Caption = file.FileName
+               }
+            };
+            product.AddMedia(productMedia);
+         }
+      }
+
+      private async Task<string> SaveFile(IFormFile file)
+      {
+         var originalFileName = ContentDispositionHeaderValue
+            .Parse(file.ContentDisposition)
+            .FileName.Value.Trim('"');
+         var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+
+         await _mediaService.SaveMediaAsync(
+            file.OpenReadStream(),
+            fileName,
+            file.ContentType
+         );
+
+         return fileName;
+      }
+
+      private async Task MapProductVariationVmToProduct(
+         User loginUser,
+         ProductForm model,
+         Product product
+      )
+      {
+         foreach (var variationVm in model.Product.Variations)
+         {
+            var productLink = new ProductLink
+            {
+               LinkType = ProductLinkType.Super,
+               Product = product,
+               LinkedProduct = product.Clone()
+            };
+
+            productLink.LinkedProduct.CreatedById = loginUser.Id;
+            productLink.LinkedProduct.LatestUpdatedById = loginUser.Id;
+            productLink.LinkedProduct.Name = variationVm.Name;
+            productLink.LinkedProduct.Slug = variationVm.Name.ToUrlFriendly();
+            productLink.LinkedProduct.Sku = variationVm.Sku;
+            productLink.LinkedProduct.Gtin = variationVm.Gtin;
+            productLink.LinkedProduct.Price = variationVm.Price;
+            productLink.LinkedProduct.OldPrice = variationVm.OldPrice;
+            productLink.LinkedProduct.NormalizedName = variationVm.NormalizedName;
+            productLink.LinkedProduct.HasOptions = false;
+            productLink.LinkedProduct.IsVisibleIndividually = false;
+
+            if (product.ThumbnailImage != null)
+            {
+               productLink.LinkedProduct.ThumbnailImage = new Media
+               {
+                  FileName = product.ThumbnailImage.FileName
+               };
+            }
+
+            await MapProductVariantImageFromVm(
+               variationVm,
+               productLink.LinkedProduct
+            );
+
+            foreach (var combinationVm in variationVm.OptionCombinations)
+            {
+               productLink.LinkedProduct.AddOptionCombination(
+                  new ProductOptionCombination
+                  {
+                     OptionId = combinationVm.OptionId,
+                     Value = combinationVm.Value,
+                     SortIndex = combinationVm.SortIndex
+                  }
+               );
+            }
+
+            var productPriceHistory = CreatePriceHistory(
+               loginUser,
+               productLink.LinkedProduct
+            );
+            product.PriceHistories.Add(productPriceHistory);
+
+            product.AddProductLinks(productLink);
+         }
+      }
+
+      private async Task MapProductVariantImageFromVm(
+         ProductVariationVm variationVm,
+         Product product
+      )
+      {
+         if (variationVm.ThumbnailImage != null)
+         {
+            var thumbnailImageFileName = await SaveFile(variationVm.ThumbnailImage);
+            if (product.ThumbnailImage != null)
+            {
+               product.ThumbnailImage.FileName = thumbnailImageFileName;
+            }
+            else
+            {
+               product.ThumbnailImage = new Media
+               {
+                  FileName = thumbnailImageFileName
+               };
+            }
+
+            foreach (var image in variationVm.NewImages)
+            {
+               var fileName = await SaveFile(image);
+               var productMedia = new ProductMedia
+               {
+                  Product = product,
+                  Media = new Media
+                  {
+                     FileName = fileName,
+                     MediaType = MediaType.Image
+                  }
+               };
+
+               product.AddMedia(productMedia);
+            }
+         }
+      }
+
+      private static ProductPriceHistory CreatePriceHistory(
+         User loginUser,
+         Product product
+      )
+      {
+         return new ProductPriceHistory
+         {
+            CreatedBy = loginUser,
+            Product = product,
+            Price = product.Price,
+            OldPrice = product.OldPrice,
+            SpecialPrice = product.SpecialPrice,
+            SpecialPriceStart = product.SpecialPriceStart,
+            SpecialPriceEnd = product.SpecialPriceEnd
+         };
+      }
+
+      private static void MapProductLinkVmToProduct(
+         ProductForm model,
+         Product product
+      )
+      {
+         foreach (var relatedProductVm in model.Product.RelatedProducts)
+         {
+            var productLink = new ProductLink
+            {
+               LinkType = ProductLinkType.Related,
+               Product = product,
+               LinkedProductId = relatedProductVm.Id
+            };
+
+            product.AddProductLinks(productLink);
+         }
       }
    }
 }

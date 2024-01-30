@@ -22,16 +22,6 @@ namespace MaziStore.Module.Catalog.Areas.Catalog.ViewModels
 
       public decimal? SpecialPrice { get; set; }
 
-
-
-
-
-
-
-
-
-
-
       public DateTimeOffset? SpecialPriceStart { get; set; }
 
       public DateTimeOffset? SpecialPriceEnd { get; set; }
@@ -42,20 +32,6 @@ namespace MaziStore.Module.Catalog.Areas.Catalog.ViewModels
 
       [Required(ErrorMessage = "The {0} field is required.")]
       public string Name { get; set; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       [Required(ErrorMessage = "The {0} field is required.")]
       public string Slug { get; set; }
@@ -68,14 +44,6 @@ namespace MaziStore.Module.Catalog.Areas.Catalog.ViewModels
 
       public string Sku { get; set; }
 
-
-
-
-
-
-
-
-
       public string Gtin { get; set; }
 
       public string ShortDescription { get; set; }
@@ -86,22 +54,8 @@ namespace MaziStore.Module.Catalog.Areas.Catalog.ViewModels
 
       public bool IsPublished { get; set; }
 
-     
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
       public bool IsFeatured { get; set; }
       public bool StockTrackingIsEnabled { get; set; }
-
-
-
 
       public IList<long> CategoryIds { get; set; } = new List<long>();
       public IList<ProductAttributeVm> Attributes { get; set; } =
@@ -110,20 +64,6 @@ namespace MaziStore.Module.Catalog.Areas.Catalog.ViewModels
       public IList<ProductOptionVm> Options { get; set; } =
          new List<ProductOptionVm>();
 
-    
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
       public IList<ProductVariationVm> Variations { get; set; } =
          new List<ProductVariationVm>();
       public string ThumbnailImageUrl { get; set; }
@@ -133,19 +73,6 @@ namespace MaziStore.Module.Catalog.Areas.Catalog.ViewModels
       public IList<ProductMediaVm> ProductDocuments { get; set; } =
          new List<ProductMediaVm>();
 
-   
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
       public IList<long> DeletedMediaIds { get; set; } = new List<long>();
       public long? BrandId { get; set; }
       public long? TaxClassId { get; set; }
